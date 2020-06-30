@@ -5,7 +5,7 @@ from discord.utils import get
 from yandex_music.client import Client
 import logging
 import os
-import ffmpeg
+
 
 try:
     import MusicBot
@@ -44,8 +44,8 @@ class yaplay(commands.Cog):
             await voice.move_to(channel)
         else:
             voice = await channel.connect()
-
-        #try:
+            
+            
         #Логирование (отключение)
         logger = logging.getLogger()
         logger.setLevel(logging.CRITICAL)
@@ -67,24 +67,24 @@ class yaplay(commands.Cog):
 
         #Получаем всю инфу по загрузке
         info = track.get_download_info(get_direct_links=True)
-            #get_direct_links=True - обязательно надо, а то х*йня получается!!!!!!!!!
-        #except:
-            #if await MusicBot.langueg(ctx) == "RUS":
-            #    embed=discord.Embed(title=f"**{ctx.author.name} На данный момент песня уже играет**",color=0xff7606)
-            #elif await MusicBot.langueg(ctx) == "ENG":
-            #    embed=discord.Embed(title=f"**{ctx.author.name} At the moment the song is already playing**",color=0xff7606)
-            #await ctx.send(embed=embed)
-            #return
-        
-        #Получаем полный путь к музыкальному файлу (поток)
-        self.playurl = info[0].direct_link
-        self.voice = voice
+        #get_direct_links=True - обязательно надо, а то х*йня получается!!!!!!!!!
 
-        self.voice.play(discord.FFmpegPCMAudio(self.playurl))
+        try:
+            #Получаем полный путь к музыкальному файлу (поток)
+            self.playurl = info[0].direct_link
+            self.voice = voice
 
-        self.voice.source = discord.PCMVolumeTransformer(voice.source)
-        self.voice.source.volume = self.vol
+            self.voice.play(discord.FFmpegPCMAudio(self.playurl))
 
+            self.voice.source = discord.PCMVolumeTransformer(voice.source)
+            self.voice.source.volume = self.vol
+        except:
+            if await MusicBot.langueg(ctx) == "RUS":
+               embed=discord.Embed(title=f"**{ctx.author.name} На данный момент песня уже играет**",color=0xff7606)
+            elif await MusicBot.langueg(ctx) == "ENG":
+               embed=discord.Embed(title=f"**{ctx.author.name} At the moment the song is already playing**",color=0xff7606)
+            await ctx.send(embed=embed)
+            return
         #Вызываем плеер
 
         if await MusicBot.langueg(ctx) == "RUS":
