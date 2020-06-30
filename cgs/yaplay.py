@@ -45,36 +45,36 @@ class yaplay(commands.Cog):
         else:
             voice = await channel.connect()
 
-        try:
-            #Логирование (отключение)
-            logger = logging.getLogger()
-            logger.setLevel(logging.CRITICAL)
+        #try:
+        #Логирование (отключение)
+        logger = logging.getLogger()
+        logger.setLevel(logging.CRITICAL)
 
-            #Подключенеи к акку
-            client = Client.from_credentials(MusicBot.YANDEX_API[0], MusicBot.YANDEX_API[1]) #<--- Top password:3
+        #Подключенеи к акку
+        client = Client.from_credentials(MusicBot.YANDEX_API[0], MusicBot.YANDEX_API[1]) #<--- Top password:3
 
-            #Делаем поисковой запрос
-            search = client.search(arg)
+        #Делаем поисковой запрос
+        search = client.search(arg)
 
-            #Получаем треки
-            tracks = search.tracks
+        #Получаем треки
+        tracks = search.tracks
 
-            #Сортируем треки в list
-            results = tracks.results
+        #Сортируем треки в list
+        results = tracks.results
 
-            #Получаем первый трек
-            track = results[0]
+        #Получаем первый трек
+        track = results[0]
 
-            #Получаем всю инфу по загрузке
-            info = track.get_download_info(get_direct_links=True)
+        #Получаем всю инфу по загрузке
+        info = track.get_download_info(get_direct_links=True)
             #get_direct_links=True - обязательно надо, а то х*йня получается!!!!!!!!!
-        except:
-            if await MusicBot.langueg(ctx) == "RUS":
-                embed=discord.Embed(title=f"**{ctx.author.name} На данный момент песня уже играет**",color=0xff7606)
-            elif await MusicBot.langueg(ctx) == "ENG":
-                embed=discord.Embed(title=f"**{ctx.author.name} At the moment the song is already playing**",color=0xff7606)
-            await ctx.send(embed=embed)
-            return
+        #except:
+            #if await MusicBot.langueg(ctx) == "RUS":
+            #    embed=discord.Embed(title=f"**{ctx.author.name} На данный момент песня уже играет**",color=0xff7606)
+            #elif await MusicBot.langueg(ctx) == "ENG":
+            #    embed=discord.Embed(title=f"**{ctx.author.name} At the moment the song is already playing**",color=0xff7606)
+            #await ctx.send(embed=embed)
+            #return
         
         #Получаем полный путь к музыкальному файлу (поток)
         self.playurl = info[0].direct_link
