@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import asyncio
 from discord.utils import get
+from yandex_music.utils.request import Request
 from yandex_music.client import Client
 import logging
 import os
