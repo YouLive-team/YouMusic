@@ -24,7 +24,8 @@ YOUTUBE_API = cycle([str(os.environ.get("YT_API1")),
                str(os.environ.get("YT_API5"))
                     ])
 #Here you should put in first nikname from yandex music, second password from yandex music
-YANDEX_API = [str(os.environ.get("NIKNAME")), str(os.environ.get("PASSWORD"))]
+YANDEX_NIKNAME = str(os.environ.get("NIKNAME"))
+YANDEX_PASSWORD = str(os.environ.get("PASSWORD"))
 
 #Удаление команд
 bot.remove_command('help')
