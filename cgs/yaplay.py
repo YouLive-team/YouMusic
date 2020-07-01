@@ -51,7 +51,7 @@ class yaplay(commands.Cog):
         logger.setLevel(logging.CRITICAL)
 
         #Подключенеи к акку
-        client = Client.from_credentials(f"{MusicBot.YANDEX_NIKNAME}", f"{MusicBot.YANDEX_PASSWORD}") #<--- Top password:3
+        client = Client.from_credentials("lev.145fake1232323423324", "real_sexi_men") #<--- Top password:3
 
         #Делаем поисковой запрос
         search = client.search(arg)
