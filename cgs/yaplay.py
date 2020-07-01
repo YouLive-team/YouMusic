@@ -49,9 +49,10 @@ class yaplay(commands.Cog):
         #Логирование (отключение)
         logger = logging.getLogger()
         logger.setLevel(logging.CRITICAL)
-
+        request = Request(proxy_url='socks5://192.162.124.158:1080')
+        
         #Подключенеи к акку
-        client = Client.from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD) #<--- Top password:3
+        client = Client.from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD, request=request) #<--- Top password:3
 
         #Делаем поисковой запрос
         search = client.search(arg)
