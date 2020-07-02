@@ -56,8 +56,7 @@ class yaplay(commands.Cog):
 
         #Подключенеи к акку
         print("Я тут 3")
-        client = Client(request=request)
-        client = client.from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD, request=request) #<--- Top password:3
+        client = Client(request=request).from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD, request=request) #<--- Top password:3
         print("Я тут 4")
 
         #Делаем поисковой запрос
