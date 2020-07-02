@@ -51,7 +51,7 @@ class yaplay(commands.Cog):
         logger = logging.getLogger()
         logger.setLevel(logging.CRITICAL)
         print("Я тут 1")
-        request = Request(proxy_url=f'http://{MusicBot.YANDEX_NIKNAME}:{MusicBot.YANDEX_PASSWORD}@5.61.13.3:8080')
+        request = Request(proxy_url=f'https://193.200.211.19:8080')
         print("Я тут 2")
 
         #Подключенеи к акку
