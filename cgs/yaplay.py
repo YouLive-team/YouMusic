@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import asyncio
 from discord.utils import get
-from yandex_music.utils.request import Request
 from yandex_music.client import Client
 import logging
 import os
@@ -50,14 +49,9 @@ class yaplay(commands.Cog):
         #Логирование (отключение)
         logger = logging.getLogger()
         logger.setLevel(logging.CRITICAL)
-        print("Я тут 1")
-        request = Request(proxy_url=f'https://193.200.211.19:8080')
-        print("Я тут 2")
 
         #Подключенеи к акку
-        print("Я тут 3")
-        client = Client(request=request).from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD, request=request) #<--- Top password:3
-        print("Я тут 4")
+        client = Client.from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD) #<--- Top password:3
 
         #Делаем поисковой запрос
         search = client.search(arg)
