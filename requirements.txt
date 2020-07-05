@@ -35,6 +35,7 @@ stem
 termcolor
 torrequest
 urllib3
+requests[socks]
 virtualenv
 websockets
 yandex-music
