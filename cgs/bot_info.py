@@ -55,9 +55,7 @@ class about_bot(commands.Cog):
 
     @commands.command(aliases = ["bot"])
     async def info_bot(self, ctx):
-        all_person = 0
-        for guild in self.bot.guilds:
-            all_person = guild.member_count
+        all_person = self.bot.guilds.member_count
 
         if await MusicBot.langueg(ctx) == "RUS":
             embed = discord.Embed(title="Биография бота", color=0xff7606)
