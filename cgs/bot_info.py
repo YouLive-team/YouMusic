@@ -58,7 +58,7 @@ class about_bot(commands.Cog):
         all_person = 0
         all_bot = 0
         for guild in self.bot.guilds:
-            for member in guild:
+            for member in guild.members:
                 if member.bot:
                     all_bot += 1
             all_person = int(guild.member_count) - all_bot
