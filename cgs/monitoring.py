@@ -21,7 +21,7 @@ class test(commands.Cog):
         today = datetime.datetime.today() +timedelta
 
         now = today.strftime("%Y/%m/%d %H:%M:%S")
-        print(colored(f'{now}:  «Я готов»', 'blue'))
+        print(colored(f'{now}:  «Я готова»', 'blue'))
         _type = discord.ActivityType.listening
         activity = discord.Activity(name=f"{len(self.bot.guilds)} servers", type=_type)
         status = discord.Status.online
