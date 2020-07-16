@@ -52,6 +52,10 @@ class yaplay(commands.Cog):
 
         #Подключенеи к акку
         client = Client.from_credentials(MusicBot.YANDEX_NIKNAME, MusicBot.YANDEX_PASSWORD) #<--- Top password:3
+        
+        #Фиксы
+        client.set_language("us")
+        
 
         #Делаем поисковой запрос
         search = client.search(arg)
