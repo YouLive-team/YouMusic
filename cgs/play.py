@@ -517,218 +517,220 @@ class play(commands.Cog):
         member = discord.utils.get(message.guild.members, id=payload.user_id)
         guild = message.guild
         emoji = str(payload.emoji)
-        if emoji == "▶" and member.bot == False and member.voice:
-            await message.remove_reaction(payload.emoji, member)
-            self.voice.resume()
-
-            if await MusicBot.langueg(message) == "RUS":
-                embed=discord.Embed(title=f"▶`Возобновление`▶", color=0xff7606)
-                embed.set_author(name=f"Пользователь {member.name} возобновил прослушивание", icon_url=f"{member.avatar_url}")
-                mess = await channel.send(embed=embed)
-            elif await MusicBot.langueg(message) == "ENG":
-                embed=discord.Embed(title=f"▶`Resumption`▶", color=0xff7606)
-                embed.set_author(name=f"User {member.name} resumption listening", icon_url=f"{member.avatar_url}")
-                mess = await channel.send(embed=embed)
-            await asyncio.sleep(4)
-            await mess.delete()
-
-        elif emoji == "⏸" and member.bot == False and member.voice :
-            if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
-                self.voice.pause()
+        try:
+            if emoji == "▶" and member.bot == False and member.voice:
                 await message.remove_reaction(payload.emoji, member)
+                self.voice.resume()
+
                 if await MusicBot.langueg(message) == "RUS":
-                    embed=discord.Embed(title=f"⏸`Пауза`⏸", color=0xff7606)
-                    embed.set_author(name=f"Пользователь {member.name} поставил музыку на паузу", icon_url=f"{member.avatar_url}")
+                    embed=discord.Embed(title=f"▶`Возобновление`▶", color=0xff7606)
+                    embed.set_author(name=f"Пользователь {member.name} возобновил прослушивание", icon_url=f"{member.avatar_url}")
                     mess = await channel.send(embed=embed)
                 elif await MusicBot.langueg(message) == "ENG":
-                    embed=discord.Embed(title=f"⏸`Pause`⏸", color=0xff7606)
-                    embed.set_author(name=f"User {member.name} put the music on pause", icon_url=f"{member.avatar_url}")
+                    embed=discord.Embed(title=f"▶`Resumption`▶", color=0xff7606)
+                    embed.set_author(name=f"User {member.name} resumption listening", icon_url=f"{member.avatar_url}")
                     mess = await channel.send(embed=embed)
                 await asyncio.sleep(4)
                 await mess.delete()
 
-        elif emoji == "⏹" and member.bot == False and member.voice:
-            if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
-                self.voice.stop()
-                await message.remove_reaction(payload.emoji, member)
-                if await MusicBot.langueg(message) == "RUS":
-                    embed=discord.Embed(title=f"⏹`Остановка мызыки`⏹", color=0xff7606)
-                    embed.set_author(name=f"Пользователь {member.name} остановил всё веселье", icon_url=f"{member.avatar_url}")
-                    await channel.send(embed=embed)
-                elif await MusicBot.langueg(message) == "ENG":
-                    embed=discord.Embed(title=f"⏹`Stopped music`⏹", color=0xff7606)
-                    embed.set_author(name=f"User {member.name} stopped music", icon_url=f"{member.avatar_url}")
-                    await channel.send(embed=embed)
+            elif emoji == "⏸" and member.bot == False and member.voice :
+                if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
+                    self.voice.pause()
+                    await message.remove_reaction(payload.emoji, member)
+                    if await MusicBot.langueg(message) == "RUS":
+                        embed=discord.Embed(title=f"⏸`Пауза`⏸", color=0xff7606)
+                        embed.set_author(name=f"Пользователь {member.name} поставил музыку на паузу", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    elif await MusicBot.langueg(message) == "ENG":
+                        embed=discord.Embed(title=f"⏸`Pause`⏸", color=0xff7606)
+                        embed.set_author(name=f"User {member.name} put the music on pause", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    await asyncio.sleep(4)
+                    await mess.delete()
 
-
-        elif emoji == "⏭️" and member.bot == False and member.voice:
-            if message.id == self.msg_play.id:
-                try:
+            elif emoji == "⏹" and member.bot == False and member.voice:
+                if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
                     self.voice.stop()
-                except:
-                    pass
-
-                # прочитаем файл построчно
-                with open(f'{path1}/music_queue.txt', 'r') as f:
-                    lines = f.readlines()
-                try:
-                    url = lines[0]
-                except: #Если файл пустой
+                    await message.remove_reaction(payload.emoji, member)
                     if await MusicBot.langueg(message) == "RUS":
-                        emb = discord.Embed(title=f"Плейлист сервера {message.guild.name} пустой", color=0xff7606)
+                        embed=discord.Embed(title=f"⏹`Остановка мызыки`⏹", color=0xff7606)
+                        embed.set_author(name=f"Пользователь {member.name} остановил всё веселье", icon_url=f"{member.avatar_url}")
+                        await channel.send(embed=embed)
                     elif await MusicBot.langueg(message) == "ENG":
-                        emb = discord.Embed(title=f"Playlist server {message.guild.name} is empty", color=0xff7606)
-                    await channel.send(embed=emb)
-                    return
+                        embed=discord.Embed(title=f"⏹`Stopped music`⏹", color=0xff7606)
+                        embed.set_author(name=f"User {member.name} stopped music", icon_url=f"{member.avatar_url}")
+                        await channel.send(embed=embed)
 
-                if await MusicBot.langueg(message) == "ENG":
-                    embed=discord.Embed(title=f"⏭️`Skip`⏭️", color=0xff7606)
-                    embed.set_author(name=f"User {member.name} skip song", icon_url=f"{member.avatar_url}")
-                    await channel.send(embed=embed)
-                if await MusicBot.langueg(message) == "RUS":
-                    embed=discord.Embed(title=f"⏭️`Переключил`⏭️", color=0xff7606)
-                    embed.set_author(name=f"Пользователь {member.name} переключил песню", icon_url=f"{member.avatar_url}")
-                    await channel.send(embed=embed)
 
-                #Запускаем поток
+            elif emoji == "⏭️" and member.bot == False and member.voice:
+                if message.id == self.msg_play.id:
+                    try:
+                        self.voice.stop()
+                    except:
+                        pass
 
-                path1 = f'{self.home}/servers/{guild.id}'
+                    # прочитаем файл построчно
+                    with open(f'{path1}/music_queue.txt', 'r') as f:
+                        lines = f.readlines()
+                    try:
+                        url = lines[0]
+                    except: #Если файл пустой
+                        if await MusicBot.langueg(message) == "RUS":
+                            emb = discord.Embed(title=f"Плейлист сервера {message.guild.name} пустой", color=0xff7606)
+                        elif await MusicBot.langueg(message) == "ENG":
+                            emb = discord.Embed(title=f"Playlist server {message.guild.name} is empty", color=0xff7606)
+                        await channel.send(embed=emb)
+                        return
 
-                try:
-                    video = pafy.new(url)
-                    best = video.getbest()
-                    self.playurl = best.url
-                except:
+                    if await MusicBot.langueg(message) == "ENG":
+                        embed=discord.Embed(title=f"⏭️`Skip`⏭️", color=0xff7606)
+                        embed.set_author(name=f"User {member.name} skip song", icon_url=f"{member.avatar_url}")
+                        await channel.send(embed=embed)
                     if await MusicBot.langueg(message) == "RUS":
-                        await channel.send("**Что то не так с этим видео, извините**\n**Попробуйте снова, но уже другое ролик**")
-                    elif await MusicBot.langueg(message) == "ENG":
-                        await channel.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
-                    return
+                        embed=discord.Embed(title=f"⏭️`Переключил`⏭️", color=0xff7606)
+                        embed.set_author(name=f"Пользователь {member.name} переключил песню", icon_url=f"{member.avatar_url}")
+                        await channel.send(embed=embed)
 
-                self.voice.play(discord.FFmpegPCMAudio(self.playurl))
+                    #Запускаем поток
 
-                self.voice.source = discord.PCMVolumeTransformer(voice.source)
-                self.voice.source.volume = self.vol
+                    path1 = f'{self.home}/servers/{guild.id}'
 
-                #Убираем первую строку из файла
-                with open(f'{path1}/music_queue.txt', 'w') as f:
-                    f.writelines(lines[1:])
+                    try:
+                        video = pafy.new(url)
+                        best = video.getbest()
+                        self.playurl = best.url
+                    except:
+                        if await MusicBot.langueg(message) == "RUS":
+                            await channel.send("**Что то не так с этим видео, извините**\n**Попробуйте снова, но уже другое ролик**")
+                        elif await MusicBot.langueg(message) == "ENG":
+                            await channel.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
+                        return
 
-                # прочитаем файл построчно
-                with open(f'{path1}/music_queue.txt', 'r') as f:
-                    lines = f.readlines()
+                    self.voice.play(discord.FFmpegPCMAudio(self.playurl))
 
-                try:
-                    next_ = lines[0]
-                    next_video = pafy.new(next_) #получаем видео
-                    title_ = next_video.title
-                except:
+                    self.voice.source = discord.PCMVolumeTransformer(voice.source)
+                    self.voice.source.volume = self.vol
+
+                    #Убираем первую строку из файла
+                    with open(f'{path1}/music_queue.txt', 'w') as f:
+                        f.writelines(lines[1:])
+
+                    # прочитаем файл построчно
+                    with open(f'{path1}/music_queue.txt', 'r') as f:
+                        lines = f.readlines()
+
+                    try:
+                        next_ = lines[0]
+                        next_video = pafy.new(next_) #получаем видео
+                        title_ = next_video.title
+                    except:
+                        if await MusicBot.langueg(message) == "RUS":
+                            title_ = 'Больше нет песен'
+                        elif await MusicBot.langueg(message) == "ENG":
+                            title_ = 'No more songs'
+
+                    #Вызываем плеер
                     if await MusicBot.langueg(message) == "RUS":
-                        title_ = 'Больше нет песен'
+                        embed = discord.Embed(title=f"**{video.title}**", url=url,
+                            description=f":white_small_square: **Лайков:  {video.likes} :thumbsup:**\n\n"
+                            f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
+                            f":white_small_square: **Просмотров:  {video.viewcount} :eye: \n\n"
+                            f":white_small_square: **Следушея песня:** *{title_}*\n\n", color=0xff7606)
+                        embed.set_author(name=f"❤ Рейтинг: {int(video.rating * 20)} ❤")
+                        embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
+                        embed.set_image(url=f'{video.bigthumb}')
+                        if (video.duration) == "00:00:00":
+                          embed.set_footer(text=f"•Прямой эфир\n•Автор: {video.author}")
+                        else:
+                          embed.set_footer(text=f"•Длительность видео: {video.duration}\n•Автор: {video.author}")
                     elif await MusicBot.langueg(message) == "ENG":
-                        title_ = 'No more songs'
+                        embed = discord.Embed(title=f"**{video.title}**", url=url,
+                            description=f":white_small_square: **Likes:  {video.likes} :thumbsup:**\n\n"
+                            f":white_small_square: **Dislikes:  {video.dislikes} :thumbsdown:**\n\n"
+                            f":white_small_square: **View count:  {video.viewcount} :eye:**\n\n"
+                            f":white_small_square: **Next song:** _{title_}_", color=0xff7606)
+                        embed.set_author(name=f"❤ Rating: {int(video.rating * 20)} ❤")
+                        embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
+                        embed.set_image(url=f'{video.bigthumb}')
+                        if (video.duration) == "00:00:00":
+                          embed.set_footer(text=f"•Live\n•Author: {video.author}")
+                        else:
+                          embed.set_footer(text=f"•Video duration: {video.duration}\n•Author: {video.author}")
 
-                #Вызываем плеер
-                if await MusicBot.langueg(message) == "RUS":
-                    embed = discord.Embed(title=f"**{video.title}**", url=url,
-                        description=f":white_small_square: **Лайков:  {video.likes} :thumbsup:**\n\n"
-                        f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
-                        f":white_small_square: **Просмотров:  {video.viewcount} :eye: \n\n"
-                        f":white_small_square: **Следушея песня:** *{title_}*\n\n", color=0xff7606)
-                    embed.set_author(name=f"❤ Рейтинг: {int(video.rating * 20)} ❤")
-                    embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
-                    embed.set_image(url=f'{video.bigthumb}')
-                    if (video.duration) == "00:00:00":
-                      embed.set_footer(text=f"•Прямой эфир\n•Автор: {video.author}")
+                    self.msg_play = await channel.send(embed=embed)
+                    await self.msg_play.add_reaction(str("▶"))
+                    await self.msg_play.add_reaction(str("⏸"))
+                    await self.msg_play.add_reaction(str("🔊"))
+                    await self.msg_play.add_reaction(str("🔉"))
+                    await self.msg_play.add_reaction(str("⏹"))
+                    await self.msg_play.add_reaction(str("⏭️"))
+                    await self.msg_play.add_reaction(str("❤️"))
+
+
+            elif emoji == "🔉" and member.bot == False and member.voice:
+                if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
+                    await message.remove_reaction(payload.emoji, member)
+                    if self.vol <= 0:
+                        self.vol = 0
+                        return
                     else:
-                      embed.set_footer(text=f"•Длительность видео: {video.duration}\n•Автор: {video.author}")
-                elif await MusicBot.langueg(message) == "ENG":
-                    embed = discord.Embed(title=f"**{video.title}**", url=url,
-                        description=f":white_small_square: **Likes:  {video.likes} :thumbsup:**\n\n"
-                        f":white_small_square: **Dislikes:  {video.dislikes} :thumbsdown:**\n\n"
-                        f":white_small_square: **View count:  {video.viewcount} :eye:**\n\n"
-                        f":white_small_square: **Next song:** _{title_}_", color=0xff7606)
-                    embed.set_author(name=f"❤ Rating: {int(video.rating * 20)} ❤")
-                    embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
-                    embed.set_image(url=f'{video.bigthumb}')
-                    if (video.duration) == "00:00:00":
-                      embed.set_footer(text=f"•Live\n•Author: {video.author}")
+                        self.vol -= 0.05
+                    self.voice.stop()
+                    self.voice.play(discord.FFmpegPCMAudio(self.playurl))
+                    self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
+                    self.voice.source.volume = self.vol
+                    if await MusicBot.langueg(message) == "RUS":
+                        embed=discord.Embed(title=f"`Горомкость сейчас: {int(self.vol*100)}%`", color=0xff7606)
+                        embed.set_author(name=f"Пользователь {member.name} понизил громкость", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    elif await MusicBot.langueg(message) == "ENG":
+                        embed=discord.Embed(title=f"`Volume now: {int(self.vol*100)}%`", color=0xff7606)
+                        embed.set_author(name=f"User {member.name} lower volume", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    await asyncio.sleep(4)
+                    await mess.delete()
+
+            elif emoji == "🔊" and member.bot == False and member.voice:
+                if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
+                    await message.remove_reaction(payload.emoji, member)
+                    if self.vol >= 1:
+                        self.vol = 1
+                        return
                     else:
-                      embed.set_footer(text=f"•Video duration: {video.duration}\n•Author: {video.author}")
+                        self.vol += 0.05
 
-                self.msg_play = await channel.send(embed=embed)
-                await self.msg_play.add_reaction(str("▶"))
-                await self.msg_play.add_reaction(str("⏸"))
-                await self.msg_play.add_reaction(str("🔊"))
-                await self.msg_play.add_reaction(str("🔉"))
-                await self.msg_play.add_reaction(str("⏹"))
-                await self.msg_play.add_reaction(str("⏭️"))
-                await self.msg_play.add_reaction(str("❤️"))
+                    self.voice.stop()
+                    self.voice.play(discord.FFmpegPCMAudio(self.playurl))
+                    self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
+                    self.voice.source.volume = self.vol
+                    if await MusicBot.langueg(message) == "RUS":
+                        embed=discord.Embed(title=f"`Горомкость сейчас: {int(self.vol*100)}%`", color=0xf4680b)
+                        embed.set_author(name=f"Пользователь {member.name} повысил громкость", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    elif await MusicBot.langueg(message) == "ENG":
+                        embed=discord.Embed(title=f"`Volume now: {int(self.vol*100)}%`", color=0xf4680b)
+                        embed.set_author(name=f"User {member.name} upper volume", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    await asyncio.sleep(4)
+                    await mess.delete()
 
+            elif emoji == "🔊" or emoji == "🔉" or emoji == "⏹" or emoji == "⏸" or emoji == "▶" and not member.voice:
+                if self.voice and self.voice.is_playing() and not member.bot and message.id == self.msg_play.id:
+                    await message.remove_reaction(payload.emoji, member)
+                    if await MusicBot.langueg(message) == "RUS":
+                        embed=discord.Embed(title=f"❌`Ошибка`❌", color=0xff7606)
+                        embed.set_author(name=f"{member.name} я не вижу вас в голосовом чате", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    elif await MusicBot.langueg(message) == "ENG":
+                        embed=discord.Embed(title=f"❌`Error`❌", color=0xff7606)
+                        embed.set_author(name=f"{member.name} I don't see you in voice channel", icon_url=f"{member.avatar_url}")
+                        mess = await channel.send(embed=embed)
+                    await asyncio.sleep(4)
+                    await mess.delete()
 
-        elif emoji == "🔉" and member.bot == False and member.voice:
-            if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
-                await message.remove_reaction(payload.emoji, member)
-                if self.vol <= 0:
-                    self.vol = 0
-                    return
-                else:
-                    self.vol -= 0.05
-                self.voice.stop()
-                self.voice.play(discord.FFmpegPCMAudio(self.playurl))
-                self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
-                self.voice.source.volume = self.vol
-                if await MusicBot.langueg(message) == "RUS":
-                    embed=discord.Embed(title=f"`Горомкость сейчас: {int(self.vol*100)}%`", color=0xff7606)
-                    embed.set_author(name=f"Пользователь {member.name} понизил громкость", icon_url=f"{member.avatar_url}")
-                    mess = await channel.send(embed=embed)
-                elif await MusicBot.langueg(message) == "ENG":
-                    embed=discord.Embed(title=f"`Volume now: {int(self.vol*100)}%`", color=0xff7606)
-                    embed.set_author(name=f"User {member.name} lower volume", icon_url=f"{member.avatar_url}")
-                    mess = await channel.send(embed=embed)
-                await asyncio.sleep(4)
-                await mess.delete()
-
-        elif emoji == "🔊" and member.bot == False and member.voice:
-            if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
-                await message.remove_reaction(payload.emoji, member)
-                if self.vol >= 1:
-                    self.vol = 1
-                    return
-                else:
-                    self.vol += 0.05
-
-                self.voice.stop()
-                self.voice.play(discord.FFmpegPCMAudio(self.playurl))
-                self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
-                self.voice.source.volume = self.vol
-                if await MusicBot.langueg(message) == "RUS":
-                    embed=discord.Embed(title=f"`Горомкость сейчас: {int(self.vol*100)}%`", color=0xf4680b)
-                    embed.set_author(name=f"Пользователь {member.name} повысил громкость", icon_url=f"{member.avatar_url}")
-                    mess = await channel.send(embed=embed)
-                elif await MusicBot.langueg(message) == "ENG":
-                    embed=discord.Embed(title=f"`Volume now: {int(self.vol*100)}%`", color=0xf4680b)
-                    embed.set_author(name=f"User {member.name} upper volume", icon_url=f"{member.avatar_url}")
-                    mess = await channel.send(embed=embed)
-                await asyncio.sleep(4)
-                await mess.delete()
-
-        elif emoji == "🔊" or emoji == "🔉" or emoji == "⏹" or emoji == "⏸" or emoji == "▶" and not member.voice:
-            if self.voice and self.voice.is_playing() and not member.bot and message.id == self.msg_play.id:
-                await message.remove_reaction(payload.emoji, member)
-                if await MusicBot.langueg(message) == "RUS":
-                    embed=discord.Embed(title=f"❌`Ошибка`❌", color=0xff7606)
-                    embed.set_author(name=f"{member.name} я не вижу вас в голосовом чате", icon_url=f"{member.avatar_url}")
-                    mess = await channel.send(embed=embed)
-                elif await MusicBot.langueg(message) == "ENG":
-                    embed=discord.Embed(title=f"❌`Error`❌", color=0xff7606)
-                    embed.set_author(name=f"{member.name} I don't see you in voice channel", icon_url=f"{member.avatar_url}")
-                    mess = await channel.send(embed=embed)
-                await asyncio.sleep(4)
-                await mess.delete()
-
-        else:
-            return
+            else:
+                return
+        except:pass
 
 def setup(bot):
     bot.add_cog(play(bot))
