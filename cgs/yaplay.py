@@ -93,7 +93,7 @@ class yaplay(commands.Cog):
             embed = discord.Embed(title=f"**{track.title}**",
                 description=f":white_small_square: **ID:  {track.id} :game_die:**\n\n"
                 f":white_small_square: **Регион: {track.regions[0]} :globe_with_meridians:**\n\n"
-                f":white_small_square: **[Поделится](https://music.yandex.ru/track/{track.id}) :trumpet:\n\n", color=0xf2a20d)
+                f":white_small_square: **[Поделится](https://music.yandex.ru/track/{track.id}) :trumpet:**\n\n", color=0xf2a20d)
             # ~ embed.set_thumbnail(url=f"{cover_uri}")
             # ~ embed.set_image(url=f'{track.og_image}')
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/851627/screenshots/2270820/record-player.gif")
@@ -103,7 +103,7 @@ class yaplay(commands.Cog):
             embed = discord.Embed(title=f"**{track.title}**",
                 description=f":white_small_square: **ID:  {track.id} :game_die:**\n\n"
                 f":white_small_square: **Region: {track.regions[0]} :globe_with_meridians:**\n\n"
-                f":white_small_square: **[Share](https://music.yandex.ru/track/{track.id}) :trumpet:\n\n", color=0xf2a20d)
+                f":white_small_square: **[Share](https://music.yandex.ru/track/{track.id}) :trumpet:**\n\n", color=0xf2a20d)
             # ~ embed.set_thumbnail(url=f"{cover_uri}")
             # ~ embed.set_image(url=f'{track.og_image}')
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/851627/screenshots/2270820/record-player.gif")
