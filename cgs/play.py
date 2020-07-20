@@ -107,6 +107,7 @@ async def main_fplay(self,ctx, arg):
                 f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
                 f":white_small_square: **Просмотров:  {video.viewcount} :eye: **\n\n"
                 f":white_small_square: **Следушея песня:** *{title_}*\n\n", color=0xff7606)
+            print(video)
             embed.set_author(name=f"❤ Рейтинг: {int(video.rating * 20)} ❤")
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
             embed.set_image(url=f'{video.bigthumb}')
