@@ -52,10 +52,8 @@ class yaplay(commands.Cog):
         logger.setLevel(logging.CRITICAL)
 
         #Подключенеи к акку
-        print("Я тут 4")
-        request = Request(proxy_url=f'http://95.141.193.14:80')
+        request = Request(proxy_url=str(os.environ.get("PRIVATE_PROXY")))
         client = Client(token=MusicBot.YANDEX_TOKEN, request=request)
-        print("Я тут 4")
 
         #Делаем поисковой запрос
         search = client.search(arg)
