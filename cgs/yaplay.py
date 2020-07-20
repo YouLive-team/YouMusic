@@ -131,7 +131,7 @@ class yaplay(commands.Cog):
         emoji = str(payload.emoji)
         try:
             if emoji == "▶" and member.bot == False and member.voice:
-                if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
+                if self.voice and message.id == self.msg_play.id:
                     await message.remove_reaction(payload.emoji, member)
                     self.voice.resume()
     
