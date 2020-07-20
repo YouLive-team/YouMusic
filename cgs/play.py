@@ -239,35 +239,35 @@ async def main_play(self,ctx, arg):
     else:
         self.vol = 0.60
         music_chanel_id = ctx.channel.id
-#         try:
-        video = pafy.new(url)
-        best = video.getbest()
-        self.playurl = best.url
-#         except:
-#             if await MusicBot.langueg(ctx) == "RUS":
-#                 await ctx.send("**Что то не так с этим видео, извините**\n**Попробуйте снова, но уже другое ролик**")
-#             elif await MusicBot.langueg(ctx) == "ENG":
-#                 await ctx.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
-#             return
+        try:
+            video = pafy.new(url)
+            best = video.getbest()
+            self.playurl = best.url
+        except:
+            if await MusicBot.langueg(ctx) == "RUS":
+                await ctx.send("**Что то не так с этим видео, извините**\n**Попробуйте снова, но уже другое ролик**")
+            elif await MusicBot.langueg(ctx) == "ENG":
+                await ctx.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
+            return
 
-#         try:
-        self.voice.play(discord.FFmpegPCMAudio(self.playurl))
+        try:
+            self.voice.play(discord.FFmpegPCMAudio(self.playurl))
 
-        self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
-        self.voice.source.volume = self.vol
-#         except:#Если песня уже играет то мы добавим новую в список
+            self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
+            self.voice.source.volume = self.vol
+        except:#Если песня уже играет то мы добавим новую в список
 
-#             path1 = f'{self.home}/servers/{ctx.guild.id}'
-#             with open(f'{path1}/music_queue.txt','a',  encoding='Latin-1') as f:
-#                 f.write(f'{url}\n')
+            path1 = f'{self.home}/servers/{ctx.guild.id}'
+            with open(f'{path1}/music_queue.txt','a',  encoding='Latin-1') as f:
+                f.write(f'{url}\n')
 
-#             video = pafy.new(url)
-#             if await MusicBot.langueg(ctx) == "RUS":
-#                 embed=discord.Embed(title=f"__{ctx.author.name}__ добавил __`{video.title}`__ в плейлист",color=0xff7606)
-#             elif await MusicBot.langueg(ctx) == "ENG":
-#                 embed=discord.Embed(title=f"__{ctx.author.name}__ add __`{video.title}`__ in playlist",color=0xff7606)
-#             await ctx.send(embed=embed)
-#             return
+            video = pafy.new(url)
+            if await MusicBot.langueg(ctx) == "RUS":
+                embed=discord.Embed(title=f"__{ctx.author.name}__ добавил __`{video.title}`__ в плейлист",color=0xff7606)
+            elif await MusicBot.langueg(ctx) == "ENG":
+                embed=discord.Embed(title=f"__{ctx.author.name}__ add __`{video.title}`__ in playlist",color=0xff7606)
+            await ctx.send(embed=embed)
+            return
 
         path1 = f'{self.home}/servers/{guild.id}'
 
