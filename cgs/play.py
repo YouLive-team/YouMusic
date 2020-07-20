@@ -239,16 +239,16 @@ async def main_play(self,ctx, arg):
     else:
         self.vol = 0.60
         music_chanel_id = ctx.channel.id
-        try:
-            video = pafy.new(url)
-            best = video.getbest()
-            self.playurl = best.url
-        except:
-            if await MusicBot.langueg(ctx) == "RUS":
-                await ctx.send("**Что то не так с этим видео, извините**\n**Попробуйте снова, но уже другое ролик**")
-            elif await MusicBot.langueg(ctx) == "ENG":
-                await ctx.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
-            return
+#         try:
+        video = pafy.new(url)
+        best = video.getbest()
+        self.playurl = best.url
+#         except:
+#             if await MusicBot.langueg(ctx) == "RUS":
+#                 await ctx.send("**Что то не так с этим видео, извините**\n**Попробуйте снова, но уже другое ролик**")
+#             elif await MusicBot.langueg(ctx) == "ENG":
+#                 await ctx.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
+#             return
 
 #         try:
         self.voice.play(discord.FFmpegPCMAudio(self.playurl))
