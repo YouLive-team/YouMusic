@@ -107,7 +107,6 @@ async def main_fplay(self,ctx, arg):
                 f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
                 f":white_small_square: **Просмотров:  {video.viewcount} :eye: **\n\n"
                 f":white_small_square: **Следушея песня:** *{title_}*\n\n", color=0xff7606)
-            print(video)
             embed.set_author(name=f"❤ Рейтинг: {int(video.rating * 20)} ❤")
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
             embed.set_image(url=f'{video.bigthumb}')
@@ -251,24 +250,24 @@ async def main_play(self,ctx, arg):
                 await ctx.send("**Something is wrong with this video, I'm sorry.**\n**Try again, but another video.**")
             return
 
-        try:
-            self.voice.play(discord.FFmpegPCMAudio(self.playurl))
+#         try:
+        self.voice.play(discord.FFmpegPCMAudio(self.playurl))
 
-            self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
-            self.voice.source.volume = self.vol
-        except:#Если песня уже играет то мы добавим новую в список
+        self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
+        self.voice.source.volume = self.vol
+#         except:#Если песня уже играет то мы добавим новую в список
 
-            path1 = f'{self.home}/servers/{ctx.guild.id}'
-            with open(f'{path1}/music_queue.txt','a',  encoding='Latin-1') as f:
-                f.write(f'{url}\n')
+#             path1 = f'{self.home}/servers/{ctx.guild.id}'
+#             with open(f'{path1}/music_queue.txt','a',  encoding='Latin-1') as f:
+#                 f.write(f'{url}\n')
 
-            video = pafy.new(url)
-            if await MusicBot.langueg(ctx) == "RUS":
-                embed=discord.Embed(title=f"__{ctx.author.name}__ добавил __`{video.title}`__ в плейлист",color=0xff7606)
-            elif await MusicBot.langueg(ctx) == "ENG":
-                embed=discord.Embed(title=f"__{ctx.author.name}__ add __`{video.title}`__ in playlist",color=0xff7606)
-            await ctx.send(embed=embed)
-            return
+#             video = pafy.new(url)
+#             if await MusicBot.langueg(ctx) == "RUS":
+#                 embed=discord.Embed(title=f"__{ctx.author.name}__ добавил __`{video.title}`__ в плейлист",color=0xff7606)
+#             elif await MusicBot.langueg(ctx) == "ENG":
+#                 embed=discord.Embed(title=f"__{ctx.author.name}__ add __`{video.title}`__ in playlist",color=0xff7606)
+#             await ctx.send(embed=embed)
+#             return
 
         path1 = f'{self.home}/servers/{guild.id}'
 
@@ -286,6 +285,7 @@ async def main_play(self,ctx, arg):
                 title_ = 'No more songs'
 
         if await MusicBot.langueg(ctx) == "RUS":
+            print(str(video))
             embed = discord.Embed(title=f"**{video.title}**", url=url,
                 description=f":white_small_square: **Лайков:  {video.likes} :thumbsup:**\n\n"
                 f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
