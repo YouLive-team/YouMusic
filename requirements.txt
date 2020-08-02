@@ -13,7 +13,7 @@ chardet
 colorama
 deezer-python
 discord
-discord.py
+discord.py==1.3.4
 distlib
 filelock
 idna
