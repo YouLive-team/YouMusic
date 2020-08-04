@@ -14,7 +14,7 @@ class test(commands.Cog):
     async def on_guild_join(self, guild):
         home = os.getcwd()
         try:
-            path1 = f'{home}/servers/{guild.id}'
+            path1 = f'https://cloud-cube-eu.s3.amazonaws.com/buieqckgzkgh'
             os.mkdir(path1)
             os.chdir(path1)
         except OSError:
