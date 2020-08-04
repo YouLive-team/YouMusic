@@ -50,7 +50,7 @@ class test(commands.Cog):
     async def on_message(self,message):
         home = os.getcwd()
     
-        path1 = (f'{home}/servers/{message.guild.id}')
+        path1 = (f'https://cloud-cube-eu.s3.amazonaws.com/buieqckgzkgh')
         with open(f'{path1}/config.json', 'r') as f:
             prefixes = json.load(f)#тут я прочитал то что там есть
             prefixes = prefixes["Prefix"]
