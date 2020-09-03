@@ -443,7 +443,7 @@ class play(commands.Cog):
 
         #Вызываем плеер
         if await MusicBot.langueg(ctx) == "RUS":
-            embed = discord.Embed(title=f"**{video.title}**", url=url,
+            embed = discord.Embed(title=f"**{video.title}**", url=queue[0][0:43],
                 description=f":white_small_square: **Лайков:  {video.likes} :thumbsup:**\n\n"
                 f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
                 f":white_small_square: **Просмотров:  {video.viewcount} :eye: **\n\n"
@@ -452,11 +452,11 @@ class play(commands.Cog):
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
             embed.set_image(url=f'{video.bigthumb}')
             if str(video.duration) == "00:00:00":
-              embed.set_footer(text=f"•Прямой эфир\n•Автор: {video.author}")
+                embed.set_footer(text=f"•Прямой эфир\n•Автор: {video.author}")
             else:
-              embed.set_footer(text=f"•Длительность видео: {video.duration}\n•Автор: {video.author}")
+                embed.set_footer(text=f"•Длительность видео: {video.duration}\n•Автор: {video.author}")
         elif await MusicBot.langueg(ctx) == "ENG":
-            embed = discord.Embed(title=f"**{video.title}**", url=url,
+            embed = discord.Embed(title=f"**{video.title}**", url=queue[0][0:43],
                 description=f":white_small_square: **Likes:  {video.likes} :thumbsup:**\n\n"
                 f":white_small_square: **Dislikes:  {video.dislikes} :thumbsdown:**\n\n"
                 f":white_small_square: **View count:  {video.viewcount} :eye:**\n\n"
@@ -465,9 +465,9 @@ class play(commands.Cog):
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
             embed.set_image(url=f'{video.bigthumb}')
             if str(video.duration) == "00:00:00":
-              embed.set_footer(text=f"•Live\n•Author: {video.author}")
+                embed.set_footer(text=f"•Live\n•Author: {video.author}")
             else:
-              embed.set_footer(text=f"•Video duration: {video.duration}\n•Author: {video.author}")
+                embed.set_footer(text=f"•Video duration: {video.duration}\n•Author: {video.author}")
 
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(str("▶"))
