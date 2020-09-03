@@ -50,6 +50,8 @@ class test(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self,message):
+        self.db = await MusicBot.mydb()
+        
         #Обновляю очередь
         cursor = self.db.cursor()
 
