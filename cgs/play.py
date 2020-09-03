@@ -451,7 +451,7 @@ class play(commands.Cog):
             embed.set_author(name=f"❤ Рейтинг: {int(video.rating * 20)} ❤")
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
             embed.set_image(url=f'{video.bigthumb}')
-            if (video.duration) == "00:00:00":
+            if str(video.duration) == "00:00:00":
               embed.set_footer(text=f"•Прямой эфир\n•Автор: {video.author}")
             else:
               embed.set_footer(text=f"•Длительность видео: {video.duration}\n•Автор: {video.author}")
