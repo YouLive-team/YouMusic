@@ -648,7 +648,7 @@ class play(commands.Cog):
 
                     #Вызываем плеер
                     if await MusicBot.langueg(message) == "RUS":
-                        embed = discord.Embed(title=f"**{video.title}**", url=url,
+                        embed = discord.Embed(title=f"**{video.title}**", url=queue[0][0:43],
                             description=f":white_small_square: **Лайков:  {video.likes} :thumbsup:**\n\n"
                             f":white_small_square: **Дизлайков:  {video.dislikes} :thumbsdown:**\n\n"
                             f":white_small_square: **Просмотров:  {video.viewcount} :eye: \n\n"
@@ -661,7 +661,7 @@ class play(commands.Cog):
                         else:
                           embed.set_footer(text=f"•Длительность видео: {video.duration}\n•Автор: {video.author}")
                     elif await MusicBot.langueg(message) == "ENG":
-                        embed = discord.Embed(title=f"**{video.title}**", url=url,
+                        embed = discord.Embed(title=f"**{video.title}**", url=queue[0][0:43],
                             description=f":white_small_square: **Likes:  {video.likes} :thumbsup:**\n\n"
                             f":white_small_square: **Dislikes:  {video.dislikes} :thumbsdown:**\n\n"
                             f":white_small_square: **View count:  {video.viewcount} :eye:**\n\n"
