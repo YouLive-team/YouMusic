@@ -18,6 +18,7 @@ distlib
 filelock
 idna
 multidict
+mysql-connector-python
 numpy
 pafy
 pandas
