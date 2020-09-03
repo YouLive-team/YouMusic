@@ -398,6 +398,9 @@ class play(commands.Cog):
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()
 
+        print(queue[0])
+        print(queue[0:43])
+        
         try:
             url = pafy.new(queue[0:43])
         except:
