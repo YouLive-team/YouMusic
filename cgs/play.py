@@ -433,8 +433,7 @@ class play(commands.Cog):
         queue = cursor.fetchone()
             
         try:
-            next_ = queue[0][0:43]
-            next_video = pafy.new(next_) #получаем видео
+            next_video = pafy.new(str(queue[0][0:43])) #получаем видео
             title_ = next_video.title
         except:
             if await MusicBot.langueg(ctx) == "RUS":
@@ -465,7 +464,7 @@ class play(commands.Cog):
             embed.set_author(name=f"❤ Rating: {int(video.rating * 20)} ❤")
             embed.set_thumbnail(url=f"https://cdn.dribbble.com/users/232265/screenshots/832385/turntable.gif")
             embed.set_image(url=f'{video.bigthumb}')
-            if (video.duration) == "00:00:00":
+            if str(video.duration) == "00:00:00":
               embed.set_footer(text=f"•Live\n•Author: {video.author}")
             else:
               embed.set_footer(text=f"•Video duration: {video.duration}\n•Author: {video.author}")
@@ -594,7 +593,7 @@ class play(commands.Cog):
                     queue = cursor.fetchone()
 
                     try:
-                        url = pafy.new(queue[0][0:43])
+                        url = pafy.new(str(queue[0][0:43]))
                     except: #Если файл пустой
                         if await MusicBot.langueg(message) == "RUS":
                             emb = discord.Embed(title=f"Плейлист сервера {message.guild.name} пустой", color=0xff7606)
@@ -615,7 +614,7 @@ class play(commands.Cog):
                     #Запускаем поток
 
                     try:
-                        video = pafy.new(queue[0][0:43])
+                        video = pafy.new(str(queue[0][0:43]))
                         best = video.getbest()
                         self.playurl = best.url
                     except:
