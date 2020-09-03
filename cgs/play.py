@@ -54,7 +54,6 @@ async def main_fplay(self,ctx, arg):
     else:
 
         self.vol = 0.60
-        music_chanel_id = ctx.channel.id
         try:
             video = pafy.new(url)
             best = video.getbest()
@@ -398,11 +397,9 @@ class play(commands.Cog):
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()
 
-        print(queue[0])
-        print(queue[0:43])
-        
+
         try:
-            url = pafy.new(queue[0:43])
+            url = pafy.new(queue[0][0:43])
         except:
             if await MusicBot.langueg(ctx) == "RUS":
                 emb = discord.Embed(title=f"Плейлист сервера __{ctx.guild.name}__ пустой", color=0xff7606)
@@ -411,7 +408,7 @@ class play(commands.Cog):
             await ctx.send(embed=emb)
             return
         try:
-            video = pafy.new(url)
+            video = pafy.new(queue[0][0:43])
             best = video.getbest()
             self.playurl = best.url
         except:
@@ -597,7 +594,7 @@ class play(commands.Cog):
                     queue = cursor.fetchone()
 
                     try:
-                        url = queue[0][0:43]
+                        url = pafy.new(queue[0][0:43])
                     except: #Если файл пустой
                         if await MusicBot.langueg(message) == "RUS":
                             emb = discord.Embed(title=f"Плейлист сервера {message.guild.name} пустой", color=0xff7606)
@@ -618,7 +615,7 @@ class play(commands.Cog):
                     #Запускаем поток
 
                     try:
-                        video = pafy.new(url)
+                        video = pafy.new(queue[0][0:43])
                         best = video.getbest()
                         self.playurl = best.url
                     except:
