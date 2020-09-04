@@ -21,7 +21,7 @@ from discord.ext import commands
 async def main_fplay(self,ctx, arg):
     global fplayGo, global_voice
 
-    self.db = await MusicBot.mydb()
+    db = await MusicBot.mydb()
 
     self.voice = get(self.bot.voice_clients, guild = ctx.guild)
     global_voice = self.voice
@@ -73,14 +73,14 @@ async def main_fplay(self,ctx, arg):
         except:#Если песня уже играет то мы добавим новую в список
 
             #Обновляю очередь
-            cursor = self.db.cursor()
+            cursor = db.cursor()
 
             cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
             queue = cursor.fetchone()
 
             sql = f"UPDATE server_{ctx.guild.id} SET music_queue = '{url} {queue[0]}'"
             cursor.execute(sql)
-            self.db.commit()
+            db.commit()
 
             video = pafy.new(url)
             if await MusicBot.langueg(ctx) == "RUS":
@@ -91,7 +91,7 @@ async def main_fplay(self,ctx, arg):
             return
 
         #Читаю очередь
-        cursor = self.db.cursor()
+        cursor = db.cursor()
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()
 
@@ -155,7 +155,7 @@ async def main_fplay(self,ctx, arg):
 async def main_play(self,ctx, arg):
     global playGo, global_voice
 
-    self.db = await MusicBot.mydb()
+    db = await MusicBot.mydb()
 
     self.voice = get(self.bot.voice_clients, guild = ctx.guild)
     global_voice = self.voice
@@ -265,14 +265,14 @@ async def main_play(self,ctx, arg):
         except:#Если песня уже играет то мы добавим новую в список
 
             #Обновляю очередь
-            cursor = self.db.cursor()
+            cursor = db.cursor()
 
             cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
             queue = cursor.fetchone()
 
             sql = f"UPDATE server_{ctx.guild.id} SET music_queue = '{url} {queue[0]}'"
             cursor.execute(sql)
-            self.db.commit()
+            db.commit()
 
             video = pafy.new(url)
             if await MusicBot.langueg(ctx) == "RUS":
@@ -283,7 +283,7 @@ async def main_play(self,ctx, arg):
             return
 
         #Читаю очередь
-        cursor = self.db.cursor()
+        cursor = db.cursor()
 
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()
@@ -390,9 +390,10 @@ class play(commands.Cog):
     #Дело в том что мне надо сделать переменые для реакций, и сделать так что б без бд
     @commands.command(aliases = ["sk"])
     async def skip(self, ctx):
-        self.db = await MusicBot.mydb()
+        pafy.set_api_key(next(MusicBot.YOUTUBE_API))
+        db = await MusicBot.mydb()
         #Читаю очередь
-        cursor = self.db.cursor()
+        cursor = db.cursor()
     
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()
@@ -427,7 +428,7 @@ class play(commands.Cog):
 
         sql = f"UPDATE server_{ctx.guild.id} SET music_queue = '{queue[0][44:]}'"
         cursor.execute(sql)
-        self.db.commit()
+        db.commit()
 
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()
@@ -496,6 +497,7 @@ class play(commands.Cog):
 
     @commands.command(aliases = ["vol"])
     async def volume(self, ctx, volume:float = 50):
+        pafy.set_api_key(next(MusicBot.YOUTUBE_API))
         if volume > 100:
             if await MusicBot.langueg(ctx) == "RUS":
                 embed=discord.Embed(title=f"Максимум допустимое число это 100", color=0xf4680b)
@@ -525,9 +527,10 @@ class play(commands.Cog):
 #----------------Рабочие кнопки-------------------#
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
+        pafy.set_api_key(next(MusicBot.YOUTUBE_API))
         channel = self.bot.get_channel(payload.channel_id)
 
-        self.db = await MusicBot.mydb()
+        db = await MusicBot.mydb()
 
         message = await channel.fetch_message(payload.message_id)
         member = discord.utils.get(message.guild.members, id=payload.user_id)
@@ -587,13 +590,13 @@ class play(commands.Cog):
                         pass
 
                     # прочитаем файл построчно
-                    cursor = self.db.cursor()
+                    cursor = db.cursor()
 
                     cursor.execute(f"SELECT music_queue FROM server_{message.guild.id}")
                     queue = cursor.fetchone()
 
                     try:
-                        url = pafy.new(str(queue[0][0:43]))
+                        url = pafy.new(queue[0][0:43])
                     except: #Если файл пустой
                         if await MusicBot.langueg(message) == "RUS":
                             emb = discord.Embed(title=f"Плейлист сервера {message.guild.name} пустой", color=0xff7606)
@@ -601,7 +604,6 @@ class play(commands.Cog):
                             emb = discord.Embed(title=f"Playlist server {message.guild.name} is empty", color=0xff7606)
                         await channel.send(embed=emb)
                         return
-
                     if await MusicBot.langueg(message) == "ENG":
                         embed=discord.Embed(title=f"⏭️`Skip`⏭️", color=0xff7606)
                         embed.set_author(name=f"User {member.name} skip song", icon_url=f"{member.avatar_url}")
@@ -612,9 +614,8 @@ class play(commands.Cog):
                         await channel.send(embed=embed)
 
                     #Запускаем поток
-
                     try:
-                        video = pafy.new(str(queue[0][0:43]))
+                        video = pafy.new(queue[0][0:43])
                         best = video.getbest()
                         self.playurl = best.url
                     except:
@@ -625,14 +626,12 @@ class play(commands.Cog):
                         return
 
                     self.voice.play(discord.FFmpegPCMAudio(self.playurl))
-
-                    self.voice.source = discord.PCMVolumeTransformer(voice.source)
+                    self.voice.source = discord.PCMVolumeTransformer(self.voice.source)
                     self.voice.source.volume = self.vol
 
-                    sql = f"UPDATE server_{message.guild.id} SET music_queue = '{queue[0][44:]}'"
-                    cursor.execute(sql)
-                    self.db.commit()
-            
+                    cursor.execute(f"UPDATE server_{message.guild.id} SET music_queue = '{queue[0][44:]}'")
+                    db.commit()
+
                     cursor.execute(f"SELECT music_queue FROM server_{message.guild.id}")
                     queue = cursor.fetchone()
 
@@ -645,7 +644,6 @@ class play(commands.Cog):
                             title_ = 'Больше нет песен'
                         elif await MusicBot.langueg(message) == "ENG":
                             title_ = 'No more songs'
-
                     #Вызываем плеер
                     if await MusicBot.langueg(message) == "RUS":
                         embed = discord.Embed(title=f"**{video.title}**", url=queue[0][0:43],
@@ -673,7 +671,6 @@ class play(commands.Cog):
                           embed.set_footer(text=f"•Live\n•Author: {video.author}")
                         else:
                           embed.set_footer(text=f"•Video duration: {video.duration}\n•Author: {video.author}")
-
                     self.msg_play = await channel.send(embed=embed)
                     await self.msg_play.add_reaction(str("▶"))
                     await self.msg_play.add_reaction(str("⏸"))
@@ -682,7 +679,6 @@ class play(commands.Cog):
                     await self.msg_play.add_reaction(str("⏹"))
                     await self.msg_play.add_reaction(str("⏭️"))
                     await self.msg_play.add_reaction(str("❤️"))
-
 
             elif emoji == "🔉" and member.bot == False and member.voice:
                 if self.voice and self.voice.is_playing() and message.id == self.msg_play.id:
