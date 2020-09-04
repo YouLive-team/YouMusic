@@ -99,8 +99,10 @@ class add(commands.Cog):
         #Достаю очередь
         cursor.execute(f"SELECT music_queue FROM server_{ctx.guild.id}")
         queue = cursor.fetchone()# Тут она в виде кортежа, а мне надо в види строки + надо роздилить
-        queue = queue[0].split()# Поэтому я использую split()
-
+        try:
+            queue = queue[0].split()# Поэтому я использую split()
+        except:
+            queue = ()
         #Тут я беру по 1 ссылки и добовляю в список
         lines = []
         for i in queue:
